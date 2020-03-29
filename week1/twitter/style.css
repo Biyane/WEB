@@ -1,0 +1,107 @@
+body{
+    max-height: 100%;
+    overflow: hidden;
+}
+.side{
+    height: 90%;
+    width: 50%;
+    margin: 0;
+    position: fixed;
+    top: 0;
+}
+.left{
+    background-color: #00aced;
+    left: 0;
+}
+.right{
+    background-color: rgb(18, 28, 46);
+    right: 0;
+}
+.div{
+    width: 70%;
+    margin: 0px 7em;
+    height: 100%;
+    display: block;
+}
+.logo{
+    width: 2.5em;
+    height: 2.5em;
+    margin-top: 100px;
+    margin-right: 100%;
+    margin-bottom: 25px;
+}
+.lozung{
+    display: block;
+    color: white;
+    font-size: 2.1em;
+    word-spacing: 10px;
+    margin-bottom: 2em;
+    font-weight: 10px;
+}
+
+.p1{
+    font-size: 2.5em;
+    font-family: Helvetica, sans-serif;
+    font-size: 1em;
+    color: white;
+    font-weight: 2em;
+}
+.registr, .login{
+    text-decoration: none;
+    color: white;
+    font-weight: 900;
+    font-size: 1.2em;
+    box-sizing: border-box;
+    text-align: center;
+    padding-top: 5px;
+    width: 81%;
+    border: 1px #00aced solid;
+    display: block;
+    background-color: #00aced;
+    border-radius: 30px;
+    height: 40px;
+    margin-right: 10px;
+}
+.login{
+    display: inline-block;
+    margin-left: auto;
+    margin-top: 20px;
+    background-color: rgb(18, 28, 46);
+    padding-right: 15px;
+    color: rgb(44, 44, 226);
+}
+.topfoot{
+    width: 100%;
+    position: absolute;
+    border: 1px black solid;
+    top: 550px;
+    height: 65px;
+    left: 0;
+    background-color:rgb(18, 28, 46);
+    text-align: center;
+    padding-top: 10px;
+}
+footer a{
+    color: gray;
+    text-decoration: none;
+}
+a+a{
+    margin-left: 0.5em;
+}
+.words{
+    text-align: center;
+    margin-top: 200px;
+    color: white;
+    font-size: 1.5em;
+
+}
+.wtf{
+    margin-left: 40px;
+}
+aside{
+    display: inline;
+}
+.botfoot{
+    margin-top: 10px;
+    color: gray;
+}
