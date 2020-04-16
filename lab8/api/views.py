@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from api.models import Category, Product
+from .models import Category, Product
 from django.http.response import JsonResponse
 from django.http import Http404
 # Create your views here.
