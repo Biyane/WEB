@@ -1,5 +1,8 @@
 from django.db import models
-
+from pygments.lexers import get_lexer_by_name
+from pygments.formatters.html import HtmlFormatter
+from pygments import highlight
+from django.contrib.auth.models import User
 # Create your models here.
 
 
@@ -8,6 +11,7 @@ class Company(models.Model):
     description = models.TextField()
     city = models.CharField(max_length=200)
     address = models.TextField()
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def to_json(self):
         return {
