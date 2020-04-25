@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from .views import CompanyList, CompanyDetail, company_vacancies,\
     vacancies_detail, vacancies_list, vacancies_top_list
 from rest_framework.urlpatterns import format_suffix_patterns
@@ -6,7 +6,7 @@ from .auth import UserList, login, logout
 from rest_framework_jwt.views import obtain_jwt_token, RefreshJSONWebToken
 urlpatterns = [
     path('companies/', CompanyList.as_view(), name='company_list'),
-    path('companies/<int:id>', CompanyDetail.as_view(), name='company_detail'),
+    path('companies/<int:pk>', CompanyDetail.as_view(), name='company_detail'),
     path('companies/<int:id>/vacancies', company_vacancies, name='company_vacancies'),
     path('vacancies/', vacancies_list, name='vacancy_list'),
     path('vacancies/<int:id>', vacancies_detail, name='vacancy_detail'),

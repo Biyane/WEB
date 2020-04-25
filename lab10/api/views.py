@@ -223,23 +223,25 @@ def vacancies_top_list(request):
 #
 #     def delete(self, request, *args, **kwargs):
 #         return self.destroy(request, *args, **kwargs)
-#
-#
+
+
 class CompanyList(generics.ListCreateAPIView):
-    # permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
-    #
-    # def get_queryset(self):
-    #     return Company.objects.filter(owner=self.request.user)
-    #
-    # def get_serializer_class(self):
-    #     return CompanySerializer
-    #
-    # def perform_create(self, serializer):
-    #     serializer.save(owner=self.request.user)
-    queryset = Company.objects.all()
-    serializer_class = CompanySerializer2
+    permission_classes = (IsAuthenticated, )
+
+    def get_queryset(self):
+        return Company.objects.filter(owner=self.request.user)
+
+    def get_serializer_class(self):
+        return CompanySerializer
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+    # queryset = Company.objects.all()
+    # serializer_class = CompanySerializer2
 
 
 class CompanyDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
+
+
