@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import Categories, Recipe
 from django.contrib.auth.models import User
 from rest_framework import generics, permissions
-from .serializers import RecipeSerializer, UserSerializer
+from .serializers import RecipeSerializer, UserSerializer, CategorySerializer
 from rest_framework.decorators import api_view
 from django.http import Http404
 from rest_framework.response import Response
@@ -32,7 +32,7 @@ class UserCreateAPIView(generics.CreateAPIView):
 #     return Response(serializer.data)
 
 
-# class CategoriesAPIView(generics.ListCreateAPIView):
-#     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-#     queryset = Categories.objects.all()
-#     serializer_class = CategorySerializer
+class CategoriesAPIView(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    queryset = Categories.objects.all()
+    serializer_class = CategorySerializer

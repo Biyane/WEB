@@ -27,7 +27,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-# class CategorySerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Categories
-#         fields = '__all__'
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Categories
+        fields = '__all__'
