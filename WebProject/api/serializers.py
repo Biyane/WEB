@@ -14,7 +14,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create_user(
-            username=validated_data['username']
+            username=validated_data['username'],
+            email=validated_data['email']
         )
         user.set_password(validated_data['password'])
         user.save()
@@ -32,7 +33,8 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Categories
-        fields = ('names', 'recipes')
+        fields = ('id', 'name', 'recipes')
+        read_only_fields = ['id']
 
 
 class CategorySerializer2(serializers.Serializer):

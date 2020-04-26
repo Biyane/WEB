@@ -18,7 +18,7 @@ from django.contrib.auth.models import AbstractBaseUser, AbstractUser
 #     def __str__(self):
 #         return '{}'.format(self.username)
 
-class RecipeManager(models.Manager):
+class REcipeManager(models.Manager):
     def get_high_rating_queryset(self):
         return super().get_queryset().filter(rating__gte=3)
 
@@ -31,11 +31,11 @@ class Categories(models.Model):
 
 
 class Recipe(models.Model):
-    name = models.CharField(max_length=50, blank=True)
+    name = models.CharField(max_length=50, blank=True, default="No Name")
     categoryId = models.ForeignKey(Categories, on_delete=models.CASCADE)
-    ingredients = models.TextField(blank=True)
+    ingredients = models.TextField(blank=True, default="No ingredients")
     description = models.TextField(blank=True)
     rating = models.IntegerField(blank=True, null=True)
     image = models.TextField(blank=True)
-    recipe_objects = RecipeManager()
-
+    recipe_objects = REcipeManager()
+    objects = models.Manager()
