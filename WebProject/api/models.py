@@ -18,6 +18,13 @@ from django.contrib.auth.models import AbstractBaseUser, AbstractUser
 #     def __str__(self):
 #         return '{}'.format(self.username)
 
+class RecipeManager(models.Manager):
+    def get_high_rating_queryset(self):
+        return super().get_queryset().filter(rating__gte=3)
+
+    def get_null_queryset(self):
+        return super().get_queryset().filter(description=None)
+
 
 class Categories(models.Model):
     name = models.CharField(max_length=50)
@@ -30,4 +37,5 @@ class Recipe(models.Model):
     description = models.TextField(blank=True)
     rating = models.IntegerField(blank=True, null=True)
     image = models.TextField(blank=True)
+    recipe_objects = RecipeManager()
 
