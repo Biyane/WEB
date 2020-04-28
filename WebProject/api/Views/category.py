@@ -1,11 +1,11 @@
-from rest_framework import status, permissions
+from rest_framework import status, permissions, generics
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from api.serializers import CategorySerializer
 from api.models import Categories
 
 
-@permission_classes([permissions.AllowAny])
+@permission_classes([permissions.IsAuthenticatedOrReadOnly])
 @api_view(['GET', 'POST'])
 def category_list(request):
     if request.method == 'GET':
@@ -19,6 +19,13 @@ def category_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+class CategoryList(generics.ListCreateAPIView):
+    queryset = Categories.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+@permission_classes([permissions.IsAuthenticatedOrReadOnly])
 @api_view(['GET', 'PUT', 'DELETE'])
 def category_detail(request, category_id):
     try:

@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(write_only=True)
-
     class Meta:
         model = User
         fields = ('id', 'username', 'password', 'email')
@@ -23,18 +22,35 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class RecipeSerializer(serializers.ModelSerializer):
+    ingredients = serializers.CharField(write_only=False)
+    description = serializers.CharField(write_only=False)
+    rating = serializers.IntegerField(write_only=False)
+    image = serializers.CharField(write_only=False)
+
     class Meta:
         model = Recipe
         fields = '__all__'
+        read_only_fields = ('id',)
+
+    def to_representation(self, instance):
+        self.fields['owner'] = UserSerializer(read_only=True)
+        self.fields['categoryId'] = CategorySerializer(read_only=True)
+        return super(RecipeSerializer, self).to_representation(instance)
 
 
 class CategorySerializer(serializers.ModelSerializer):
     recipes = RecipeSerializer(many=True, read_only=True)
+    name = serializers.CharField(write_only=True)
 
     class Meta:
         model = Categories
-        fields = ('id', 'name', 'recipes')
-        read_only_fields = ['id']
+        fields = ('id', 'name', 'owner', 'recipes')
+        read_only_fields = ('id', 'recipes')
+        # write_only_fields = ('name',)
+
+    def to_representation(self, instance):
+        self.fields['owner'] = UserSerializer(read_only=True)
+        return super(CategorySerializer, self).to_representation(instance)
 
 
 class CategorySerializer2(serializers.Serializer):
@@ -50,7 +66,7 @@ class CategorySerializer2(serializers.Serializer):
         return instance
 
 
-class RecipeSerialier2(serializers.Serializer):
+class RecipeSerializer2(serializers.Serializer):
     name = serializers.CharField(max_length=50)
     ingredients = serializers.CharField(max_length=200)
     description = serializers.CharField(max_length=200)

@@ -6,12 +6,7 @@ from api.serializers import UserSerializer
 from rest_framework.decorators import api_view
 from djoser.conf import settings
 from djoser import utils
-
-
-@api_view(['POST'])
-def logout(request):
-    request.auth.delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
+from django.contrib.auth import logout
 
 
 class UserCreateAPIView(generics.CreateAPIView):
@@ -20,9 +15,15 @@ class UserCreateAPIView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-class Logout(APIView):
-    permission_classes = settings.PERMISSIONS.token_destroy
+@api_view(['POST'])
+def logout(request):
+    request.auth.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
-    def post(self, request):
-        utils.logout_user(request)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]
+
+
