@@ -1,24 +1,36 @@
 from .models import Recipe, Categories
 from rest_framework import serializers
+from rest_framework.response import Response
 from django.contrib.auth.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(write_only=True)
+    email = serializers.EmailField(required=True)
+    # time = serializers.IntegerField(required=True)
+
     class Meta:
         model = User
-        fields = ('id', 'username', 'password', 'email')
-        write_only_fields = ('username', 'email', 'password',)
+        fields = ('id','username', 'password', 'email',)
+        write_only_fields = ('username', 'password', 'email')
         read_only_fields = ('id', )
 
     def create(self, validated_data):
         user = User.objects.create_user(
             username=validated_data['username'],
-            email=validated_data['email']
+            email=validated_data['email'],
+            # time=validated_data['time']
         )
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+    def update(self, instance, validated_data):
+        if validated_data.get('user') is not None:
+            instance.user.set_password(validated_data['user'].get('password', instance.user.password))
+            instance.user.username = validated_data['user'].get('username', instance.user.username)
+            instance.user.email = validated_data['user'].get('email', instance.user.email)
+            instance.user.save()
+            return instance
 
 
 class RecipeSerializer(serializers.ModelSerializer):

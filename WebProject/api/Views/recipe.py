@@ -3,13 +3,19 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from api.models import Recipe
 from api.serializers import RecipeSerializer, RecipeSerializer2
-from rest_framework.decorators import api_view,permission_classes
+from rest_framework.decorators import api_view, permission_classes
 
 
 class RecipeList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
+
+
+class RecipeDetail(generics.ListCreateAPIView):
+    permission_classes = [permissions.AllowAny]
+    queryset = Recipe.objects.all()
+    serializer_class = RecipeSerializer2
 
     def get_queryset(self):
         name = self.kwargs['name']
@@ -22,8 +28,6 @@ class RecipeListByName(generics.ListAPIView):
     serializer_class = RecipeSerializer
 
 
-    # def list(self, request, *args, **kwargs):
-    #     queryset =
     #CBV
 # class RecipeListAPIView(APIView):
 #     def get(self, request):
@@ -37,12 +41,6 @@ class RecipeListByName(generics.ListAPIView):
 #             serializer.save()
 #             return Response(serializer.data, status=status.HTTP_201_CREATED)
 #         return Response({'error': serializer.errors}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-class RecipeDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    queryset = Recipe.objects.all()
-    serializer_class = RecipeSerializer2
 
 
 #CBV
@@ -83,7 +81,7 @@ class RecipeByCategoryAPIView(APIView):
 
 
 @api_view(['GET'])
-@permission_classes(permissions.IsAuthenticatedOrReadOnly)
+@permission_classes([permissions.IsAuthenticatedOrReadOnly])
 def recipe_by_name(request, name):
     recipes = Recipe.objects.filter(name=name)
     serializer = RecipeSerializer(recipes, many=True)

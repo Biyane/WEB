@@ -1,7 +1,7 @@
 from rest_framework import status, permissions, generics
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from api.serializers import CategorySerializer
+from api.serializers import CategorySerializer, RecipeSerializer
 from api.models import Categories
 
 
@@ -25,8 +25,8 @@ class CategoryList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
-@permission_classes([permissions.IsAuthenticatedOrReadOnly])
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([permissions.IsAuthenticatedOrReadOnly])
 def category_detail(request, category_id):
     try:
         category = Categories.objects.get(id=category_id)
@@ -45,3 +45,16 @@ def category_detail(request, category_id):
     elif request.method == 'DELETE':
         category.delete()
         return Response({'deleted': True})
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticatedOrReadOnly])
+def category_recipes(request, category_id):
+    try:
+        category = Categories.objects.get(pk=category_id)
+    except Categories.DoesNotExist as e:
+        return Response({'error': str(e)})
+
+    cat_recipes = category.recipe_set.all()
+    recipes = RecipeSerializer(cat_recipes, many=True)
+    return Response(recipes.data, status=status.HTTP_200_OK)
