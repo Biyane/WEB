@@ -44,6 +44,7 @@ class RecipeListByName(generics.ListAPIView):
 
 
 #CBV
+@permission_classes([permissions.IsAuthenticated])
 class RecipeDetailAPIView(APIView):
 
     def get_object(self, recipe_id):

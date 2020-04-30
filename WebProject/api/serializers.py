@@ -6,11 +6,10 @@ from django.contrib.auth.models import User
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)
-    # time = serializers.IntegerField(required=True)
 
     class Meta:
         model = User
-        fields = ('id','username', 'password', 'email',)
+        fields = ('id', 'username', 'password', 'email',)
         write_only_fields = ('username', 'password', 'email')
         read_only_fields = ('id', )
 
@@ -18,19 +17,19 @@ class UserSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
-            # time=validated_data['time']
+            password=validated_data['password']
         )
-        user.set_password(validated_data['password'])
         user.save()
         return user
 
-    def update(self, instance, validated_data):
-        if validated_data.get('user') is not None:
-            instance.user.set_password(validated_data['user'].get('password', instance.user.password))
-            instance.user.username = validated_data['user'].get('username', instance.user.username)
-            instance.user.email = validated_data['user'].get('email', instance.user.email)
-            instance.user.save()
-            return instance
+    # def update(self, instance, validated_data):
+    #     if validated_data.get('username') is not None:
+    #         instance.user.set_password(validated_data['username'].get('password', instance.user.password))
+    #         instance.user.username = validated_data['username'].get('username', instance.user.username)
+    #         instance.user.email = validated_data['username'].get('email', instance.user.email)
+    #         instance.user.save()
+    #         return instance
+    #     #return Response({"error:": "error"})
 
 
 class RecipeSerializer(serializers.ModelSerializer):
